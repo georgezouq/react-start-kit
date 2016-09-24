@@ -1,0 +1,19 @@
+
+/*helper*/
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.clearfix{
+  height:1%;
+}
+
+.copyright{
+  text-align: center;
+}
+
+.content,.pagination{
+  li {
+    list-style: none;
+    float:left;
+    padding:5px;
+    cursor: pointer;
+  }
+}
