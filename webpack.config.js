@@ -79,5 +79,6 @@ module.exports = {
         extensions: ['', '.js', '.json', '.scss'],
         //模块别名定义，方便后续直接引用别名，无须多写长长的地址
         alias: {}
-    }
+    },
+    devtool: isProduction ? false : 'source-map'
 }

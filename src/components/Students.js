@@ -16,7 +16,6 @@ export default class Students extends Component {
 
     //组件安装前执行
     componentWillMount(){
-        this.props.getStudents();
     }
 
     render(){

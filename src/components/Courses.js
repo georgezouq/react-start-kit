@@ -9,7 +9,7 @@ export default class Courses extends Component{
     }
 
     componentWillMount(){
-        this.props.getCourses();
+        
     }
 
     render(){
@@ -24,6 +24,7 @@ export default class Courses extends Component{
                         <tr>
                             <th>ID</th>
                             <th>Course Name</th>
+                            <th>Teacher Name</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,6 +34,7 @@ export default class Courses extends Component{
                                 <tr key={course.id}>
                                     <td>{course.id}</td>
                                     <td>{course.name}</td>
+                                    <td>{course.teacher_name}</td>
                                 </tr>
                             );
                         })

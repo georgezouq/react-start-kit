@@ -3,7 +3,7 @@
  */
 import React,{ Component } from 'react';
 import ReactDOM from 'react-dom';
-import { browserHistory } from 'react-router';
+import { hashHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
 
@@ -19,7 +19,7 @@ import './sass/style.scss';
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={browserHistory}>
+        <Router history={hashHistory}>
             <Route path="/" component={Main}>
                 <IndexRoute component={StudentsContainer}/>
                 <Route path="/students(/:pageNum)" component={StudentsContainer}/>

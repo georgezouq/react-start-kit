@@ -16,10 +16,10 @@ export default class Header extends Component {
                     <h2>This is header</h2>
                     <ul>
                         <li>
-                            <Link to="/students">Students</Link>
+                            <Link to="students">Students</Link>
                         </li>
                         <li>
-                            <Link to="/courses">Courses</Link>
+                            <Link to="courses">Courses</Link>
                         </li>
                     </ul>
                 </div>

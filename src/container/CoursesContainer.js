@@ -1,13 +1,13 @@
-import React,{ Component } from 'react';
+import React from 'react';
 
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
+import { hashHistory } from 'react-router';
 
 import Courses from '../components/Courses';
 
 import { getCourses } from '../actions';
 
-class CoursesContainer extends Component{
+class CoursesContainer extends React.Component{
     constructor(props){
         super(props);
     }
@@ -18,27 +18,28 @@ class CoursesContainer extends Component{
     }
 
     componentWillMount(){
+        let pageParam = this.getPageParam();
+
         this.props.getCourses({
-            page:this.getPageParam()
-        })
+            page:pageParam
+        });
+
     }
 
     handlePageClick(e){
         let pageNow = e.selected + 1;
-        console.log('======:'+pageNow);
-        browserHistory.push(`/courses/${pageNow}`);
+
+        hashHistory.push(`courses/${pageNow}`);
     }
 
-    componentWillReceiveProps(props) {
+    componentWillReceiveProps(nextProps){
+        let prevPageNum = this.getPageParam(),
+            nextPageNum = parseInt(nextProps.params.pageNum);
+        nextPageNum = isNaN(nextPageNum) ? 1 : nextPageNum;
 
-        let pageNow = this.getPageParam();
-        let pageNext = parseInt(props.params.pageNum);
-
-        console.log(pageNow + "  " + pageNext);
-
-        if( !isNaN(pageNext) && pageNow !== pageNext ){
+        if ( prevPageNum != nextPageNum ) {
             this.props.getCourses({
-                page:this.getPageParam()
+                page: nextPageNum
             });
         }
     }
