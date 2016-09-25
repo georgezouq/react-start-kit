@@ -5,7 +5,7 @@ import { hashHistory } from 'react-router';
 
 import Courses from '../components/Courses';
 
-import { getCourses } from '../actions';
+import { getCourses,getStudentInfo } from '../actions';
 
 class CoursesContainer extends React.Component{
     constructor(props){
@@ -17,11 +17,21 @@ class CoursesContainer extends React.Component{
         return isNaN(pageParam) ? 1 : pageParam;
     }
 
+    getStudentId(){
+        var studentId = this.props.params.studentId;
+        return isNaN(studentId) ? '' : studentId;
+    }
+
     componentWillMount(){
         let pageParam = this.getPageParam();
+        let studentId = this.getStudentId();
+
+        if( studentId )
+            this.props.getStudentInfo(studentId);
 
         this.props.getCourses({
-            page:pageParam
+            page:pageParam,
+            studentId:studentId
         });
 
     }
@@ -32,14 +42,21 @@ class CoursesContainer extends React.Component{
         hashHistory.push(`courses/${pageNow}`);
     }
 
+
     componentWillReceiveProps(nextProps){
         let prevPageNum = this.getPageParam(),
             nextPageNum = parseInt(nextProps.params.pageNum);
         nextPageNum = isNaN(nextPageNum) ? 1 : nextPageNum;
 
-        if ( prevPageNum != nextPageNum ) {
+        let prevStudentId = this.getStudentId(),
+            nextStudentId = nextProps.params.studentId;
+
+        if ( prevPageNum != nextPageNum
+            || nextStudentId != prevStudentId
+        ) {
             this.props.getCourses({
-                page: nextPageNum
+                page: nextPageNum,
+                studentId:nextStudentId
             });
         }
     }
@@ -52,11 +69,11 @@ class CoursesContainer extends React.Component{
 }
 
 function mapStateToProps(store){
-    console.log("to mapStateToProps function");
     return {
         courseList:store.courses.courses,
-        totalPages:store.courses.totalPages
+        totalPages:store.courses.totalPages,
+        student:store.students.student
     }
 }
 
-export default connect(mapStateToProps,{ getCourses })(CoursesContainer);
+export default connect(mapStateToProps,{ getCourses,getStudentInfo })(CoursesContainer);

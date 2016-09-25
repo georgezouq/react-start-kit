@@ -39,26 +39,27 @@ export default class Students extends Component {
                         </thead>
                         <tbody>
 
-                        {studentList.map( student => {
+                        {studentList ? studentList.map( student => {
+
                             return (
                                 <tr className="studentList" key={student.id}>
                                     <td>
-                                        <a href="">
+                                        <Link to={`/courses/1/${student.id}`}>
                                             {student.first_name + ' ' + student.last_name}
-                                        </a>
+                                        </Link>
                                     </td>
                                     <td dangerouslySetInnerHTML={_this.createMarkup(student.address)}></td>
                                     <td>{student.city}</td>
                                     <td>{student.state}</td>
                                     <td>{moment(student.dob).format('YYYY-MM-DD')}</td>
                                     <td>
-                                        <Link to={`/${student.id}`} key={student.id}>
+                                        <Link to={`/courses/1/${student.id}`} key={student.id}>
                                             Courses List
                                         </Link>
                                     </td>
                                 </tr>
                             );
-                        })}
+                        }) : ''}
                         </tbody>
                     </table>
                     <div>

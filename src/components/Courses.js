@@ -14,11 +14,11 @@ export default class Courses extends Component{
 
     render(){
 
-        let { courseList,handlePageClick,totalPages } = this.props;
-
+        let { courseList,handlePageClick,totalPages,student } = this.props;
+        student = student && student[0] ? student[0]: [];
         return (
             <div>
-                <h2>{this.props.params.studentId ? this.props.params.studentId + "'s Course List" : "Courses List"}</h2>
+                <h2>{student ? student.first_name + " "+student.last_name + "'s Course List" : "Courses List"}</h2>
                 <table>
                     <thead>
                         <tr>

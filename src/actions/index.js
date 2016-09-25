@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const GET_STUDENTS = "GET_STUDENTS";
 export const GET_COURSES = "GET_COURSES";
-
+export const GET_STUDENT = "GET_STUDENT";
 
 
 let defaultQuery = {
@@ -12,11 +12,22 @@ let defaultQuery = {
     per_page:10
 }
 
+export function getStudentInfo(id){
+    let params = {id:id};
+    let request = axios.get(Urls.STUDENTS_URL,{
+        params
+    });
+    return {
+        type:GET_STUDENT,
+        payload:request
+    }
+}
+
 export function getStudents(query = defaultQuery){
 
     let params = {...defaultQuery,...query};
 
-    let request = axios.get(Urls.STUDENTS_URLS,{
+    let request = axios.get(Urls.STUDENTS_URL,{
         params:params
     });
     
@@ -27,10 +38,10 @@ export function getStudents(query = defaultQuery){
 }
 
 export function getCourses(query = defaultQuery){
-    console.log("to getCourses function");
+
     let params = {...defaultQuery,...query};
     
-    let request = axios.get(Urls.COURSES_URLS,{
+    let request = axios.get(Urls.COURSES_URL,{
         params
     });
 

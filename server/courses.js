@@ -11,8 +11,6 @@ let findAll = (req,res,next) => {
 
     let offset  = (page * per_page - per_page) + 1;
 
-    console.log("page:"+page);
-    console.log("offset:"+offset);
     let params = [];
     let sql,sqlNum;
 
@@ -27,7 +25,10 @@ let findAll = (req,res,next) => {
 
     sqlNum = `SELECT distinct count(1) as i 
         FROM course cou 
-        ${ifStudentId.replace('$3','$1')}`;
+        ${ifStudentId ? 
+            "LEFT JOIN enrollment en on cou.id = en.course_id " + 
+            ifStudentId.replace('$3','$1') : ''}
+        `;
 
     params.push(per_page);
     params.push(offset);

@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
+import { hashHistory } from 'react-router';
 
 import { getStudents } from '../actions';
 import Students from '../components/Students';
@@ -15,6 +15,7 @@ class StudentsContainer extends Component{
     getPageParam(){
         let pageParam = parseInt(this.props.params.pageNum);
         return isNaN(pageParam) ? 1 : pageParam;
+
     }
 
     componentWillMount(){
@@ -24,24 +25,20 @@ class StudentsContainer extends Component{
     }
 
     componentWillReceiveProps(props) {
-        console.log("come to componentWillReceiveProps");
-
-        let pageNow = this.getPageParam();
-        let pageNext = parseInt(props.params.pageNum);
-
-        console.log(pageNow + "  " + pageNext);
+        let pageNow = this.getPageParam(),
+            pageNext = parseInt(props.params.pageNum);
+        pageNext = isNaN(pageNext) ? 1 : pageNext;
 
         if( !isNaN(pageNext) && pageNow !== pageNext ){
             this.props.getStudents({
-                page:this.getPageParam()
+                page:pageNext
             });
         }
     }
 
     handlePageClick(e){
         let pageNow = e.selected + 1;
-        browserHistory.push(`/students/${pageNow}`)
-        //location.hash = `students/${pageNow}`
+        hashHistory.push(`/students/${pageNow}`);
     }
 
     render(){
