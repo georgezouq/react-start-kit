@@ -1,13 +1,20 @@
 import React,{ Component,Children } from 'react';
 
 import ReactPaginate from 'react-paginate';
-import { Link } from 'react-router';
+import { Link,hashHistory } from 'react-router';
 
 import moment from 'moment';
 
 export default class Students extends Component {
     constructor(props){
         super(props);
+
+        this.state = {
+            filterName:''
+        }
+
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleSearchChange = this.handleSearchChange.bind(this);
     }
 
     createMarkup(html){
@@ -18,13 +25,46 @@ export default class Students extends Component {
     componentWillMount(){
     }
 
+    handleSearch(e){
+        e.preventDefault();
+        let filterName = this.state.filterName;
+        if(filterName)
+            hashHistory.push(`/students/1/${filterName}`);
+    }
+
+    handleSearchChange(e){
+        this.setState({
+            filterName:e.target.value
+        })
+    }
+
     render(){
         let _this = this;
-        let {studentList,totalPages,handlePageClick} = this.props;
+        let {studentList,totalPages,handlePageClick,getFilterNameParam} = this.props;
 
         return (
-            <div>
-                <h2>This is post page</h2>
+            <div className="student-list">
+                <h2 className="title">
+                    {
+                        (() =>{
+                            let filterName = getFilterNameParam();
+                            if( filterName ){
+                                return `"${filterName}" Search Result`;
+                            }else{
+                                return "Student List";
+                            }
+                        })()
+                    }
+                    </h2>
+                <section className="student-search-container">
+                    <form role="search" method="get"
+                          onSubmit={this.handleSearch}>
+                        <label>按姓名搜索:</label>
+                        <input type="text" name="" onChange={this.handleSearchChange}/>
+                        <button type="submit">搜索</button>
+                        <button type="reset">重置</button>
+                    </form>
+                </section>
                 <div className="content">
                     <table>
                         <thead>

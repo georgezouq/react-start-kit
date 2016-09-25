@@ -10,6 +10,7 @@ class StudentsContainer extends Component{
     constructor(props){
         super(props);
         //this.handlePageClick = this.handlePageClick.bind(this);
+        this.getFilterNameParam = this.getFilterNameParam.bind(this);
     }
 
     getPageParam(){
@@ -19,9 +20,19 @@ class StudentsContainer extends Component{
     }
 
     componentWillMount(){
-        this.props.getStudents({
-            page:this.getPageParam()
-        });
+        let page = this.getPageParam();
+        let filterName = this.getFilterNameParam();
+
+        if(filterName) {
+            this.props.getStudents({
+                page,
+                filterName
+            });
+        }else{
+            this.props.getStudents({
+                page
+            });
+        }
     }
 
     componentWillReceiveProps(props) {
@@ -29,9 +40,14 @@ class StudentsContainer extends Component{
             pageNext = parseInt(props.params.pageNum);
         pageNext = isNaN(pageNext) ? 1 : pageNext;
 
-        if( !isNaN(pageNext) && pageNow !== pageNext ){
+        let filterNameNow = this.getFilterNameParam(),
+            filterNameNext = props.params.filterName;
+
+        if( (!isNaN(pageNext) && pageNow !== pageNext)
+            || (filterNameNow !== filterNameNext)){
             this.props.getStudents({
-                page:pageNext
+                page:pageNext,
+                filterName:filterNameNext
             });
         }
     }
@@ -41,9 +57,18 @@ class StudentsContainer extends Component{
         hashHistory.push(`/students/${pageNow}`);
     }
 
+    getFilterNameParam(){
+        let filterNameParams = this.props.params.filterName;
+        console.log(filterNameParams);
+        return filterNameParams;
+    }
+
     render(){
         return (
-            <Students {...this.props} handlePageClick={this.handlePageClick}/>
+            <Students {...this.props}
+                handlePageClick={this.handlePageClick}
+                getFilterNameParam={this.getFilterNameParam}
+            />
         )
     }
 }

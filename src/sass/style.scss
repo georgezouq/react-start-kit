@@ -21,3 +21,22 @@
 table{
   border:1px solid;
 }
+
+.student-list{
+
+  padding:20px;
+
+  table{
+    width:100%;
+  }
+
+  .title{
+    text-align: center;
+  }
+
+  .student-search-container{
+    background-color: #7f7f7f;
+    padding:20px;
+  }
+
+}

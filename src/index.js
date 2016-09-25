@@ -22,8 +22,10 @@ ReactDOM.render(
         <Router history={hashHistory}>
             <Route path="/" component={Main}>
                 <IndexRoute component={StudentsContainer}/>
-                <Route path="/students(/:pageNum)" component={StudentsContainer}/>
+                <Route path="/students(/:pageNum)(/:filterName)" component={StudentsContainer}/>
                 <Route path="/courses(/:pageNum)(/:studentId)" component={CoursesContainer}/>
+
+
             </Route>
         </Router>
     </Provider>,

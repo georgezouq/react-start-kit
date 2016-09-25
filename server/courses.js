@@ -9,7 +9,7 @@ let findAll = (req,res,next) => {
     let page = req.query.page && req.query.page > 0 ? req.query.page : 1;
     let per_page = req.query.per_page && req.query.per_page > 0 ? req.query.per_page : 10;
 
-    let offset  = (page * per_page - per_page) + 1;
+    let offset  = page * per_page - per_page;
 
     let params = [];
     let sql,sqlNum;

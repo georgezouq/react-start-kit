@@ -39,16 +39,27 @@ let queryStudents = (req,res,next) => {
     let page = req.query.page && req.query.page > 0 ? req.query.page : 1;
     let per_page = req.query.per_page && req.query.per_page > 0 ? req.query.per_page : 10;
 
-    let offset  = (page * per_page - per_page) + 1;
-    let params = [];
-    let sql;
+    let filterName = req.query.filterName;
 
-    sql = `SELECT * FROM student ORDER BY last_update DESC LIMIT $1 OFFSET $2`;
+    let offset  = page * per_page - per_page;
+    let params = [];
+
+    let filterSql = '';
+
     params.push(per_page);
     params.push(offset);
 
+    if( filterName ){
+        filterSql = `WHERE lower(first_name) || ' ' || lower(last_name) LIKE $3 `;
+        params.push('%'+ filterName.toLowerCase() +'%');
+    }
+    let sql = `SELECT * FROM student ${filterSql} ORDER BY last_update DESC LIMIT $1 OFFSET $2`;
+
+    let sqlNum = `SELECT count(1) as i FROM student 
+        ${filterSql.replace('$3','$1')}`;
+
     db.query(sql,params)
-        .then(results => db.query(`SELECT count(1) as i FROM student`).then(
+        .then(results => db.query(sqlNum,filterName ? [filterName]: []).then(
             totalPages => {
                 res.json({
                     results,
