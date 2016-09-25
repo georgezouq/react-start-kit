@@ -20,7 +20,7 @@ class CoursesContainer extends React.Component{
 
     getStudentId(){
         var studentId = this.props.params.studentId;
-        return isNaN(studentId) ? '' : studentId;
+        return isNaN(studentId) ? undefined : studentId;
     }
 
     componentWillMount(){
@@ -63,8 +63,10 @@ class CoursesContainer extends React.Component{
         let prevStudentId = this.getStudentId(),
             nextStudentId = nextProps.params.studentId;
 
+        console.log(prevStudentId + '-' +nextStudentId);
+
         if ( prevPageNum != nextPageNum
-            || nextStudentId != prevStudentId
+            || nextStudentId !== prevStudentId
         ) {
             this.props.getCourses({
                 page: nextPageNum,
@@ -81,10 +83,9 @@ class CoursesContainer extends React.Component{
 }
 
 function mapStateToProps(store){
-    console.log(store.courses);
     return {
         courseList:store.courses.courses.courses,
-        totalPages:store.courses.totalPages,
+        totalPages:store.courses.courses.totalPages,
         student:store.students.student
     }
 }

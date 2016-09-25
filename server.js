@@ -3,6 +3,7 @@ var express = require('express'),
     compression = require('compression'),
     students = require('./server/students'),
     courses = require('./server/courses'),
+    teachers = require('./server/teachers'),
     app = express();
 
 app.set('port',process.env.PORT || 5000);
@@ -26,6 +27,7 @@ app.use('/',express.static(__dirname));
 
 app.get('/students',students.findAll);
 app.get('/courses',courses.findAll);
+app.get('/teachers',teachers.findAll);
 
 app.use(function(err,req,res,next){
     console.error(err.stack);

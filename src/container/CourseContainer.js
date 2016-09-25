@@ -9,9 +9,15 @@ class CourseContainer extends React.Component{
     constructor(props){
         super(props);
     }
+
+    componentWillMount(){
+        console.log("componentWillMount");
+        this.props.getCourseInfo(this.props.params.courseId);
+    }
+
     render(){
         return (
-            <Course />
+            <Course {...this.props}/>
         );
     }
 
@@ -19,9 +25,8 @@ class CourseContainer extends React.Component{
 
 function mapStateToProps(store){
 
-    c
     return {
-        course:store.course.data
+        course:store.courses.course.result
     }
 }
 

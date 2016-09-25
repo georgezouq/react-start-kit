@@ -18,7 +18,7 @@ export function getCourseInfo(id){
     let request = axios.get(Urls.COURSES_URL,{
         params
     });
-
+    console.log("getCourseInfo");
     return {
         type:GET_COURSE,
         payload:request

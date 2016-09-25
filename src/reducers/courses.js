@@ -8,7 +8,7 @@ const defaultState = {
         status:'start'
     },
     course:{
-        data:{
+        result:{
             id:-1,
             name:'',
             credits:0,
@@ -23,7 +23,7 @@ export default function courses(state = defaultState,action){
     switch(action.type){
         case GET_COURSES:
             return {
-                ...state.courses,
+                ...state,
                 courses: {
                     courses: action.payload.data.results,
                     totalPages: action.payload.data.totalPages
@@ -31,9 +31,9 @@ export default function courses(state = defaultState,action){
             };
         case GET_COURSE:
             return {
-                ...state.course,
+                ...state,
                 course:{
-                    data:action.payload[0]
+                    result:action.payload.data.result[0]
                 }
             }
         default:
