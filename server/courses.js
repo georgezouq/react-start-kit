@@ -4,6 +4,22 @@ let db = require('./pghelper');
 
 let findAll = (req,res,next) => {
 
+    let id = req.query.id;
+
+    if( id )
+        findCourse(id,res,next);
+    else
+        findCourses(req,res,next);
+
+};
+
+/**
+ * Find course list
+ * @param req
+ * @param res
+ * @param next
+ */
+let findCourses = (req,res,next) => {
     let studentId = req.query.studentId;
 
     let page = req.query.page && req.query.page > 0 ? req.query.page : 1;
@@ -25,9 +41,9 @@ let findAll = (req,res,next) => {
 
     sqlNum = `SELECT distinct count(1) as i 
         FROM course cou 
-        ${ifStudentId ? 
-            "LEFT JOIN enrollment en on cou.id = en.course_id " + 
-            ifStudentId.replace('$3','$1') : ''}
+        ${ifStudentId ?
+    "LEFT JOIN enrollment en on cou.id = en.course_id " +
+    ifStudentId.replace('$3','$1') : ''}
         `;
 
     params.push(per_page);
@@ -40,7 +56,7 @@ let findAll = (req,res,next) => {
         .then(results =>
             db.query(sqlNum,(studentId ? [studentId] : [])).then(
                 totalPages => {
-                    console.log(totalPages[0].i)
+
                     res.json({
                         results,
                         totalPages: Math.ceil((totalPages[0].i / parseInt(per_page)))
@@ -51,6 +67,18 @@ let findAll = (req,res,next) => {
         .catch(next);
 };
 
+
+let findCourse = (id,res,next) => {
+    let sql = `select * from course where id = $1`;
+
+    db.query(sql,[id])
+        .then(result => {
+            res.json({
+                result
+            })
+        })
+        .catch(next);
+};
 exports.findAll = findAll;
 
 

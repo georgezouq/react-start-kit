@@ -51,7 +51,8 @@ let queryStudents = (req,res,next) => {
 
     if( filterName ){
         filterSql = `WHERE lower(first_name) || ' ' || lower(last_name) LIKE $3 `;
-        params.push('%'+ filterName.toLowerCase() +'%');
+        filterName = '%'+ filterName.toLowerCase() +'%';
+        params.push(filterName);
     }
     let sql = `SELECT * FROM student ${filterSql} ORDER BY last_update DESC LIMIT $1 OFFSET $2`;
 

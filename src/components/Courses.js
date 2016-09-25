@@ -1,8 +1,8 @@
-import React,{ Component } from 'react';
-
+import React from 'react';
+import { Link } from 'react-router';
 import ReactPaginate from 'react-paginate';
 
-export default class Courses extends Component{
+export default class Courses extends React.Component{
 
     constructor(props){
         super(props);
@@ -16,9 +16,13 @@ export default class Courses extends Component{
 
         let { courseList,handlePageClick,totalPages,student } = this.props;
         student = student && student[0] ? student[0]: [];
+
+        console.log("courseList:")
+        console.log(courseList)
+
         return (
             <div>
-                <h2>{student ? student.first_name + " "+student.last_name + "'s Course List" : "Courses List"}</h2>
+                <h2>{student && student.first_name ? student.first_name + " "+student.last_name + "'s Course List" : "Courses List"}</h2>
                 <table>
                     <thead>
                         <tr>
@@ -29,15 +33,20 @@ export default class Courses extends Component{
                     </thead>
                     <tbody>
                     {
-                        courseList.map(course => {
+
+                        courseList ? courseList.map(course => {
                             return (
                                 <tr key={course.id}>
                                     <td>{course.id}</td>
-                                    <td>{course.name}</td>
+                                    <td>
+                                        <Link to={`/course/${course.id}`}>
+                                        {course.name}
+                                        </Link>
+                                    </td>
                                     <td>{course.teacher_name}</td>
                                 </tr>
                             );
-                        })
+                        }) : ''
                     }
                     </tbody>
                 </table>

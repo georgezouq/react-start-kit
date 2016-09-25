@@ -40,7 +40,7 @@ export default class Students extends Component {
 
     render(){
         let _this = this;
-        let {studentList,totalPages,handlePageClick,getFilterNameParam} = this.props;
+        let {studentList,totalPages,getPageParam,handlePageClick,getFilterNameParam} = this.props;
 
         return (
             <div className="student-list">
@@ -112,7 +112,9 @@ export default class Students extends Component {
                                         clickCallback={handlePageClick}
                                         containerClassName={"pagination"}
                                         subContainerClassName={"pages pagination"}
+                                        forceSelected={getPageParam() - 1}
                                         activeClassName={"active"}/>
+                        {console.log(getPageParam()+1)}
                         <div className="clearfix"></div>
                     </div>
                 </div>

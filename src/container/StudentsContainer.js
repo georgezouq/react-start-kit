@@ -11,6 +11,8 @@ class StudentsContainer extends Component{
         super(props);
         //this.handlePageClick = this.handlePageClick.bind(this);
         this.getFilterNameParam = this.getFilterNameParam.bind(this);
+        this.handlePageClick = this.handlePageClick.bind(this);
+        this.getPageParam = this.getPageParam.bind(this);
     }
 
     getPageParam(){
@@ -54,12 +56,16 @@ class StudentsContainer extends Component{
 
     handlePageClick(e){
         let pageNow = e.selected + 1;
-        hashHistory.push(`/students/${pageNow}`);
+        let filterName = this.getFilterNameParam();
+        if( filterName )
+            hashHistory.push(`/students/${pageNow}/${filterName}/`);
+        else
+            hashHistory.push(`/students/${pageNow}`);
     }
 
     getFilterNameParam(){
         let filterNameParams = this.props.params.filterName;
-        console.log(filterNameParams);
+        
         return filterNameParams;
     }
 
@@ -67,6 +73,7 @@ class StudentsContainer extends Component{
         return (
             <Students {...this.props}
                 handlePageClick={this.handlePageClick}
+                getPageParam={this.getPageParam}
                 getFilterNameParam={this.getFilterNameParam}
             />
         )

@@ -4,12 +4,25 @@ import axios from 'axios';
 
 export const GET_STUDENTS = "GET_STUDENTS";
 export const GET_COURSES = "GET_COURSES";
+export const GET_COURSE = "GET_COURSE";
 export const GET_STUDENT = "GET_STUDENT";
 
 
 let defaultQuery = {
     page:1,
     per_page:10
+}
+
+export function getCourseInfo(id){
+    let params = {id:id};
+    let request = axios.get(Urls.COURSES_URL,{
+        params
+    });
+
+    return {
+        type:GET_COURSE,
+        payload:request
+    }
 }
 
 export function getStudentInfo(id){

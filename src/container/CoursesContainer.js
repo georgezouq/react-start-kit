@@ -10,6 +10,7 @@ import { getCourses,getStudentInfo } from '../actions';
 class CoursesContainer extends React.Component{
     constructor(props){
         super(props);
+        this.handlePageClick = this.handlePageClick.bind(this);
     }
 
     getPageParam(){
@@ -26,20 +27,31 @@ class CoursesContainer extends React.Component{
         let pageParam = this.getPageParam();
         let studentId = this.getStudentId();
 
-        if( studentId )
+        if( studentId ) {
             this.props.getStudentInfo(studentId);
 
-        this.props.getCourses({
-            page:pageParam,
-            studentId:studentId
-        });
+            this.props.getCourses({
+                page: pageParam,
+                studentId: studentId
+            });
+        }else{
+            this.props.getCourses({
+                page: pageParam
+            });
+        }
 
     }
 
     handlePageClick(e){
         let pageNow = e.selected + 1;
 
-        hashHistory.push(`courses/${pageNow}`);
+        let studentId = this.getStudentId();
+
+        if(studentId)
+            hashHistory.push(`courses/${pageNow}/${studentId}`);
+        else
+            hashHistory.push(`courses/${pageNow}`);
+
     }
 
 
@@ -63,14 +75,15 @@ class CoursesContainer extends React.Component{
 
     render(){
         return (
-            <Courses {...this.props} handlePageClick={this.handlePageClick}/>
+            <Courses {...this.props} getPageParam={this.getPageParam} handlePageClick={this.handlePageClick}/>
         )
     }
 }
 
 function mapStateToProps(store){
+    console.log(store.courses);
     return {
-        courseList:store.courses.courses,
+        courseList:store.courses.courses.courses,
         totalPages:store.courses.totalPages,
         student:store.students.student
     }
